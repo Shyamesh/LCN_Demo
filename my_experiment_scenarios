@@ -1,0 +1,93 @@
+Mikrotik_router = 192.168.10.1
+server = 192.168.10.50 port 5201 - 5204
+cubic_flow = 192.168.10.45/192.168.10.55 port 5201
+BBRv1_flow = 192.168.10.45 port 5204
+BBRv2_flow = 192.168.10.45 port 5203
+BBRv3_flow = 192.168.10.55 port 5202
+
+Tools:
+iperf3 
+.json
+ss -tin
+tcpdump
+
+Metrics:
+throughput, goodput, rtt, jitter, retransmission, rto, packet loss, cwnd, sending rate elapsed time, queue buffere 
+
+FILE format :
+
+ss tin log  - in each client and server 
+.json  - in each client and server 
+.pacap - server 
+
+
+conditions :
+
+upload and download 
+
+scenarios (only 2 flows at a time) :
+
+Cubic vs BBRv1, Cubic vs BBRv2,Cubic vs BBRv3 (both upload and download  starting at the same time and ending exactly at the same time )
+
+Cubic vs BBRv1, Cubic vs BBRv2,Cubic vs BBRv3 ( both upload and download cubic start first and BBR of all versions start 15 seconds later)
+Cubic vs BBRv1, Cubic vs BBRv2,Cubic vs BBRv3 ( both upload and download  BBR of all versions start first and cubic start 15 seconds later)
+
+scenarios of similar CCAs:
+
+cubic vs cubic (starting at same time )
+cubic vs cubic (staggered at 15 s )
+bbrv1 vs bbrv1 (starting at same time )
+bbrv1 vs bbrv1 (staggered at 15 s )
+bbrv2 vs BBRv2_(starting at same time )
+BBRv2 vs BBRv2 (staggered at 15 s )
+BBRv3 vs BBRv3( starting at same time )
+BBRv3 vs BBRv3   (staggered at 15 s )
+
+
+Iperf3 parameters:
+t = 120 
+i = 1
+timesteps 
+-C flag for congestion contorl algorithms
+_- R flag for download 
+- J for .json
+ss tin 
+Ip address 
+port 
+
+
+NOte : save all metrics in .json file long and ss -tin log of both clients and server sides and pcap file in server side 
+
+use ssh
+
+pull all saved files in host laptop from all ubuntu laptop of server and  clients 
+
+Also confirm cca with sysctl ipv4...
+
+
+
+Router set up:
+10 mbps max limit 
+bidge1 
+wifi2 under brdge 
+set queue tree upload and download max limit 10 M and limit at 10 M
+quitype PFIFO 50 buffere 
+cake
+codel
+fq-Codel 
+necessary magle rule 
+wap3 security 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
